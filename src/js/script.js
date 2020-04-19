@@ -1,4 +1,15 @@
 let budget = +prompt("Ваш бюджет на месяц?", "0");
+let i = 3;
+function checkSum(text) {
+    let sum = +prompt(text, "0");
+    while (isNaN(sum) || sum == null || sum == "" || sum < 0) {
+        alert("Данные ошибочные. Пожалуйста, введите ещё раз.");
+        sum = +prompt(text, "0");
+    }
+    return sum;
+}
+
+budget = checkSum("Ваш бюджет на месяц?");
 
 let appData = {
     bud: budget,
@@ -25,5 +36,13 @@ for (let key in appData.expenses) {
     thisBudget -= appData.expenses[key];
 }
 
-appData.dayBud = Math.round(thisBudget / 30);
-alert("Свободный дневной бюджет = " + appData.dayBud);
+appData.dayBud = (thisBudget / 30).toFixed(2);
+alert(`Свободный дневной бюджет = ${appData.dayBud}`);
+
+appData.savings = confirm("Имеются ли у Вас банковские вложения?");
+if (appData.savings) {
+    let income = checkSum("Введите сумму вложений.");
+    let percent = checkSum("Введите размер процента.");
+    let result = income/100/12*percent;
+    alert(`Ваш доход в банке составил ${result}.`)
+}
